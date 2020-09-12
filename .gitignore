@@ -7,3 +7,16 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# PlatformIO generated files #
+##############################
+.pio
+CMakeLists*
+cmake-build-*/ 
+platformio*
+include/
+lib/
+src/
+test/
+.gitignore
+.idea/
