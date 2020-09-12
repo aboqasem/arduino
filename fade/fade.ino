@@ -2,13 +2,13 @@ int pin = 9;
 int brightness = 0;
 int fadeAmount = 5;
 
-// the setup function runs once when you press reset or power the board
+// the setup function runs once on power or reset
 void setup() {
   // set pin 9 as output
   pinMode(pin, OUTPUT);
 }
 
-// the loop function runs over and over again forever
+// the loop function loops forever
 void loop() {
   // set the brightness of pin 9
   analogWrite(pin, brightness);
