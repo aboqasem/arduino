@@ -11,12 +11,12 @@ Thumbs.db
 # PlatformIO generated files #
 ##############################
 .pio
+.gitignore
 CMakeLists*
-cmake-build-*/ 
 platformio*
+cmake-build-*/
+.idea/
 include/
 lib/
 src/
 test/
-.gitignore
-.idea/
