@@ -1,23 +1,25 @@
-int pin = 9;
-int brightness = 0;
-int fadeAmount = 5;
+const uint8_t PIN09 = 9;
+uint8_t dutyCycle = 0;
+uint8_t change = 5;
 
 // the setup function runs once on power or reset
 void setup() {
   // set pin 9 as output
-  pinMode(pin, OUTPUT);
+  pinMode(PIN09, OUTPUT);
+  // validate change value to be a factor of 255
+  if (255 % change != 0)
+    change = 5;
 }
 
 // the loop function loops forever
 void loop() {
-  // set the brightness of pin 9
-  analogWrite(pin, brightness);
-  // change brightness each loop
-  brightness = brightness + fadeAmount;
-  // reverse direction of fading at each end of the fade
-  if (brightness <= 0 || brightness >= 255) {
-    fadeAmount = -fadeAmount;
-  }
-  // smoothen the dimming effect
+  // set the duty cycle of pin 9
+  analogWrite(PIN09, dutyCycle);
+  // change duty cycle each loop
+  dutyCycle += change;
+  // reverse direction of changing if limit reached
+  if (dutyCycle == 0 || dutyCycle == 255)
+      change *= -1;
+  // smoothen the change effect
   delay(30);
 }
