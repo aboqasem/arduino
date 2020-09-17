@@ -13,6 +13,7 @@ void setup() {
 
 // the loop function loops forever
 void loop() {
+  // if there is a serial
   if (Serial.available()) {
     // time to start counting the interrupts
     start_time = millis();
