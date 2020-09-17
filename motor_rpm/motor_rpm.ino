@@ -8,7 +8,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(2), [](){++interrupts_count;}, RISING);
   // begin the serial for data transmission
   Serial.begin(9600);
-  Serial.println("Motor speed:")
+  Serial.println("Motor speed (press any key to start):");
 }
 
 // the loop function loops forever
