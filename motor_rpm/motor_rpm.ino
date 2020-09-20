@@ -1,11 +1,11 @@
-volatile uint8_t interrupts_count = 0;
-volatile uint64_t start_time = 0;
-uint16_t motor_rpm = 0;
+volatile uint8_t interruptsCount = 0;
+volatile uint64_t startTime = 0;
+uint16_t motorRpm = 0;
 
 // the setup function runs once on power or reset
 void setup() {
-  // attach interrupt to increment interrupts_count on RISING signal on pin 2
-  attachInterrupt(digitalPinToInterrupt(2), [](){++interrupts_count;}, RISING);
+  // attach interrupt to increment interruptsCount on RISING signal on pin 2
+  attachInterrupt(digitalPinToInterrupt(2), [](){++interruptsCount;}, RISING);
   // begin the serial for data transmission
   Serial.begin(9600);
   Serial.println("Motor speed (press any key to start):");
@@ -16,16 +16,16 @@ void loop() {
   // if there is a serial
   if (Serial.available()) {
     // time to start counting the interrupts
-    start_time = millis();
+    startTime = millis();
     // reset number of interrupts
-    interrupts_count = 0;
+    interruptsCount = 0;
     // count interrupts for one second
-    while (millis() - start_time < 1000);
+    while (millis() - startTime < 1000);
     // the motor rounds per minutes =
     // interrupts / 2 (pulses per revolution) * 60 (seconds)
-    motor_rpm = interrupts_count / 2 * 60;
+    motorRpm = interruptsCount / 2 * 60;
     // print the motor RPM to the serial
-    Serial.print(motor_rpm);
+    Serial.print(motorRpm);
     Serial.println(" RPM");
   }
 }
