@@ -8,15 +8,9 @@
 ehthumbs.db
 Thumbs.db
 
-# PlatformIO generated files #
-##############################
-.pio
-.gitignore
-CMakeLists*
-platformio*
-cmake-build-*/
-.idea/
-include/
-lib/
-src/
-test/
+# PlatformIO environment #
+##########################
+PlatformIO/
+
+# CLion environment #
+.idea
