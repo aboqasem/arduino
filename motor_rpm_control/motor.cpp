@@ -1,7 +1,7 @@
 //
 // Created by Mohammad Al Zouabi on 22/09/2020.
 //
-#include "motor.hpp"
+#include "motor.h"
 
 volatile uint8_t interruptsCount = 0;
 

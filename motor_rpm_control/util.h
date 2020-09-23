@@ -32,7 +32,7 @@ uint8_t readNumber();
 uint8_t numberToDutyCycle(const uint8_t &number, const uint8_t &max);
 
 /**
- * Print the rpm to the serial monitor
+ * Print the rpm tp the serial monitor
  * @param rpm
  */
 void printRpm(const uint16_t &rpm);
