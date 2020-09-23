@@ -1,5 +1,5 @@
-#include "util.h"
-#include "motor.h"
+#include "utility.hpp"
+#include "motor.hpp"
 
 uint8_t useSerialMonitor = 0;
 
