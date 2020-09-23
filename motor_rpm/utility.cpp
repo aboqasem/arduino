@@ -1,7 +1,7 @@
 //
 // Created by Mohammad Al Zouabi on 20/09/2020.
 //
-#include "util.h"
+#include "utility.hpp"
 
 /**
  * Sets whether the serial monitor will be used by waiting for input
