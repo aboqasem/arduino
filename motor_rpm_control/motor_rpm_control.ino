@@ -1,5 +1,5 @@
-#include "util.h"
-#include "motor.h"
+#include "utility.hpp"
+#include "motor.hpp"
 
 #define PIN_MOTOR 2
 #define PIN_CONTROLLER 3

@@ -1,7 +1,7 @@
 //
 // Created by Mohammad Al Zouabi on 20/09/2020.
 //
-#include "util.h"
+#include "utility.hpp"
 
 /**
  * Sets whether the serial monitor will be used by waiting for input
@@ -49,7 +49,7 @@ uint8_t numberToDutyCycle(const uint8_t &number, const uint8_t &outOf) {
 }
 
 /**
- * Print the rpm tp the serial monitor
+ * Print the rpm to the serial monitor
  * @param rpm
  */
 void printRpm(const uint16_t &rpm) {
