@@ -1,78 +1,66 @@
-#define PIN03 3
+#include "util.h"
+#include "motor.h"
 
-volatile uint8_t interruptsCount = 0;
-volatile uint64_t startTime = 0;
+#define PIN_MOTOR 2
+#define PIN_CONTROLLER 3
+
+uint8_t useSerialMonitor = 0;
 uint8_t userInput = 0;
 uint8_t previousUserInput = 0;
 uint8_t dutyCycle = 0;
-uint16_t motorRpm = 0;
 
 // the setup function runs once on power or reset
 void setup() {
-  // attach interrupt to increment interruptsCount on RISING signal on pin 2
-  attachInterrupt(digitalPinToInterrupt(2), [](){++interruptsCount;}, RISING);
-  // set pin 3 as output
-  pinMode(PIN03, OUTPUT);
-  // write LOW to pin 3
-  analogWrite(PIN03, LOW);
-  // begin the serial for data transmission
+  // attach a motor to pin 2
+  attachMotor(PIN_MOTOR);
+  // attach motor controller to pin 3
+  attachMotorController(PIN_CONTROLLER);
+  // begin serial connection for data transmission
   Serial.begin(9600);
-  Serial.println("Enter motor speed: 3 to 9 | 0 to turn off.");
+  // allow user to choose serial monitor usability within the
+  // first 3 seconds of power/reset by pressing any key
+  setSerialUsability(useSerialMonitor);
+  if (useSerialMonitor)
+    Serial.println("Enter motor speed (3 to 9, 0 to turn off).\nWaiting for input...");
 }
 
 // the loop function loops forever
 void loop() {
-  // if there is a serial
-  if (Serial.available()) {
-    // get user input character, cast to number
-    userInput = (float) Serial.read() - '0';
-
-    // this is to make sure better accuracy when new speeds are entered, and no
-    // extra delays or repetition on 0 or old values
-    // if user input value is not within 3 and 9, turn off the motor
-    if (!(userInput >= 3 && userInput <= 9)) {
-      previousUserInput = 0;
-      analogWrite(PIN03, 0);
-      Serial.println("Off");
-    }
-    // else if the value is repeated there is no need for an extra delay,
-    // thus, calculate and print the RPM
-    else if (previousUserInput == userInput) {
-      Serial.println("Calculating RPM...");
-      calculateMotorRpm();
-      Serial.print(motorRpm);
-      Serial.println(" RPM");
-    }
-    // else, the value is new, calculate the duty cycle and set it as output,
-    // delay 5 seconds while the motor is speeding up for accuracy,
-    // then calculate and print the RPM
-    else {
-      previousUserInput = userInput;
-      // the duty cycle =
-      // percentage (user input [3 to 9] to 9) * 255 (the maximum duty cycle value)
-      dutyCycle = (((float) userInput / 9.0f) * 255.0f);
-      // set the duty cycle of pin 3
-      analogWrite(PIN03, dutyCycle);
-      startTime = millis();
-      Serial.println("Changing speed...");
-      while (millis() - startTime < 5000);
-      Serial.println("Calculating RPM...");
-      calculateMotorRpm();
-      // print the data to the serial
-      Serial.print(motorRpm);
-      Serial.println(" RPM");
-    }
-  }
-}
-
-void calculateMotorRpm() {
-  // time to start counting the interrupts
-  startTime = millis();
-  // reset number of interrupts
-  interruptsCount = 0;
-  // count interrupts for one second
-  while (millis() - startTime < 1000);
-  // the motor rounds per minutes =
-  // interrupts / 2 (pulses per revolution) * 60 (seconds)
-  motorRpm = interruptsCount / 2 * 60;
+  if (useSerialMonitor) {
+    // if input received
+    if (Serial.available()) {
+      // read number received
+      userInput = readNumber();
+      // these statements are to make sure:
+      // 1- in range 4 to 9) values
+      // 2- better accuracy when new speeds are entered
+      // 3- no extra delays or repetition on 0
+      // 4- no extra delays or repetition on old values
+      // if user input value is not in range, turn off the motor
+      if (!(userInput >= 4 && userInput <= 9)) {
+        userInput = previousUserInput = dutyCycle = 0;
+        setMotorSpeed(PIN_CONTROLLER, dutyCycle);
+        Serial.println("Motor turned off.");
+      }
+        // else if the value is repeated just get and print the RPM
+      else if (userInput == previousUserInput) {
+        Serial.println("Calculating RPM...");
+        printRpm(getMotorRpm());
+      }
+        // else, the value is new, calculate the duty cycle and set it,
+        // delay 5 seconds while the motor is changing speed for accuracy,
+        // then calculate and print the RPM
+      else {
+        previousUserInput = userInput;
+        dutyCycle = numberToDutyCycle(userInput, 9);
+        Serial.println("Changing speed...");
+        setMotorSpeed(PIN_CONTROLLER, dutyCycle);
+        delayMilliseconds(5000);
+        printRpm(getMotorRpm());
+      }
+      Serial.println("Waiting for input...");
+    } // if input received
+    // always print the rpm
+    printRpm(getMotorRpm());
+  } // if useSerialMonitor
 }
