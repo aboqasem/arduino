@@ -21,7 +21,7 @@ void setup() {
   // first 3 seconds of power/reset by pressing any key
   setSerialUsability(useSerialMonitor);
   if (useSerialMonitor)
-    Serial.println("Enter motor speed (3 to 9, 0 to turn off).\nWaiting for input...");
+    Serial.println("Enter motor speed (4 to 9, 0 to turn off).\nWaiting for input...");
 }
 
 // the loop function loops forever
