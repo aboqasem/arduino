@@ -27,6 +27,11 @@ void loop() {
   humidity = dht.readHumidity();
   // calculate heat index
   feelsLike = dht.computeHeatIndex(temperature, humidity);
+  // if the values are not read correctly
+  if (isnan(temperature) || isnan(humidity) || isnan(feelsLike)) {
+    Serial.println(F("Failed to read from DHT sensor!"));
+    return;
+  }
   printWeatherInfo(temperature, humidity, feelsLike);
   // delay 2 seconds (DHT22 sensing period)
   delayMilliseconds(2000);
