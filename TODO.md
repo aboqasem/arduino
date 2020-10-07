@@ -6,4 +6,4 @@ This is the markdown todo file for project arduino-uno.
 
 Mistakes and bugs.
 
-- [ ] Replace redundant delayMilliseconds() to built-in delay()
+- [ ] Replace redundant delayMilliseconds() with built-in delay()
