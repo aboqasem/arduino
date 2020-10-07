@@ -2,6 +2,14 @@
 
 This is the markdown todo file for project arduino-uno.
 
+## Content
+
+Improvements and additions.
+
+- [ ] Add circuit diagrams
+- [ ] Explain program purpose on top of the main file
+- [ ] Add board compatibility
+
 ## Fix
 
 Mistakes and bugs.
