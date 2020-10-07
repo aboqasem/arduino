@@ -1,6 +1,6 @@
 # TODO
 
-This is the markdown todo file for project arduino-uno.
+To-do list for the arduino repo.
 
 ## Content
 
